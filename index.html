@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sticky Notes — Pro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <h1>Sticky Notes</h1>
+
+      <div class="controls">
+        <input id="search" type="search" placeholder="Search notes..." />
+        <select id="colorSelect" title="Choose color">
+          <option value="#FFFB7D">Yellow</option>
+          <option value="#FFD1DC">Pink</option>
+          <option value="#B8F2E6">Mint</option>
+          <option value="#BFD8FF">Blue</option>
+          <option value="#E2C0FF">Lavender</option>
+        </select>
+
+        <button id="createBtn" class="btn">+ New Note</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="pinnedSection" class="notes-grid pinned">
+        <!-- pinned notes rendered here -->
+      </section>
+
+      <section id="notesContainer" class="notes-grid">
+        <!-- notes rendered here -->
+      </section>
+    </main>
+
+    <footer class="footer">
+      <small>Pro Sticky Notes • Local only • Works offline</small>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
