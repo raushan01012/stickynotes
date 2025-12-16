@@ -1,4 +1,4 @@
-// Pro Sticky Notes — Structured localStorage
+
 const notesKey = "sticky_notes_v2";
 
 const notesContainer = document.getElementById("notesContainer");
@@ -23,31 +23,31 @@ function loadNotes() {
     notes = raw ? JSON.parse(raw) : [];
 }
 
-/* -------- Render helpers -------- */
+
 function createNoteElement(note) {
     const el = document.createElement("article");
     el.className = "note";
     el.dataset.id = note.id;
     el.style.background = note.color;
 
-    // content editable area
+
     const content = document.createElement("div");
     content.className = "content";
     content.contentEditable = "true";
     content.spellcheck = false;
     content.innerText = note.content || "";
     content.addEventListener("input", () => {
-        // update content (auto-save)
+
         note.content = content.innerText;
         saveNotes();
         autoResize(content);
     });
 
-    // actions
+
     const actions = document.createElement("div");
     actions.className = "actions";
 
-    // pin button
+
     const pinBtn = document.createElement("button");
     pinBtn.className = "icon-btn icon-pin";
     pinBtn.title = note.pinned ? "Unpin" : "Pin";
@@ -60,7 +60,7 @@ function createNoteElement(note) {
         renderAll();
     });
 
-    // download button
+
     const dlBtn = document.createElement("button");
     dlBtn.className = "icon-btn";
     dlBtn.title = "Download (.pdf)";
@@ -70,7 +70,7 @@ function createNoteElement(note) {
         downloadNoteAsTxt(note);
     });
 
-    // delete button
+
     const delBtn = document.createElement("button");
     delBtn.className = "icon-btn";
     delBtn.title = "Delete note";
@@ -91,21 +91,21 @@ function createNoteElement(note) {
     el.appendChild(content);
     el.appendChild(actions);
 
-    // auto-resize initial
+
     setTimeout(() => autoResize(content), 0);
 
     return el;
 }
 
 function renderAll(filter = "") {
-    // clear
+
     notesContainer.innerHTML = "";
     pinnedSection.innerHTML = "";
 
-    // filter (case-insensitive)
+
     const q = (filter || "").trim().toLowerCase();
 
-    // pinned first
+
     const pinned = notes.filter(n => n.pinned && (!q || n.content.toLowerCase().includes(q)));
     const others = notes.filter(n => !n.pinned && (!q || n.content.toLowerCase().includes(q)));
 
@@ -113,7 +113,7 @@ function renderAll(filter = "") {
     others.forEach(note => notesContainer.appendChild(createNoteElement(note)));
 }
 
-/* -------- utilities -------- */
+
 function autoResize(el) {
     // let content decide height — reset then set
     el.style.height = "auto";
@@ -134,7 +134,7 @@ function downloadNoteAsTxt(note) {
     URL.revokeObjectURL(url);
 }
 
-/* -------- events -------- */
+
 createBtn.addEventListener("click", () => {
     const color = colorSelect.value || "#FFFB7D";
     const newNote = {
@@ -144,10 +144,10 @@ createBtn.addEventListener("click", () => {
         pinned: false,
         createdAt: Date.now()
     };
-    notes.unshift(newNote); // add to top
+    notes.unshift(newNote);
     saveNotes();
     renderAll(searchInput.value);
-    // focus newly created note
+
     setTimeout(() => {
         const el = document.querySelector(`[data-id="${newNote.id}"] .content`);
         if (el) { el.focus(); }
@@ -158,7 +158,7 @@ searchInput.addEventListener("input", (e) => {
     renderAll(e.target.value);
 });
 
-/* keyboard shortcut: ctrl/cmd+N to create */
+
 window.addEventListener("keydown", (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "n") {
         e.preventDefault();
@@ -166,6 +166,6 @@ window.addEventListener("keydown", (e) => {
     }
 });
 
-/* initial load */
+
 loadNotes();
 renderAll();
